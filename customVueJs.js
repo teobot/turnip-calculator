@@ -4,7 +4,8 @@ var turnip_calculator = new Vue({
         title: "Turnip Calculator",
         amountSpent: 0,
         prev_price_per_turnip: 0,
-        aiming_to_sell_price: 0
+        aiming_to_sell_price: 0,
+        manual_turnips_bought: 0,
     },
     created() {
 
@@ -12,11 +13,20 @@ var turnip_calculator = new Vue({
     methods: {
         numberWithCommas: function(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
+        remove_custom_set_turnips: function() {
+            this.manual_turnips_bought = 0;
         }
     },
     computed: {
         turnips_owned: function() {
-            var number_of_turnips_owned = Math.round(this.amountSpent / this.prev_price_per_turnip)
+            var number_of_turnips_owned;
+            if (this.manual_turnips_bought > 0) {
+                number_of_turnips_owned = Math.round(this.manual_turnips_bought);
+            } else {
+                number_of_turnips_owned = Math.round(this.amountSpent / this.prev_price_per_turnip)
+            }
+
             if (isFinite(number_of_turnips_owned)) {
                 return number_of_turnips_owned;
             } else {
