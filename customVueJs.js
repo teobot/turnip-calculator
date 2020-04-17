@@ -12,7 +12,15 @@ var turnip_calculator = new Vue({
     },
     methods: {
         numberWithCommas: function(x) {
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            if (1000000000000 <= x) {
+                return (x / 1000000000000).toFixed(1).toString() + "t";
+            } else if (1000000000 <= x) {
+                return (x / 1000000000).toFixed(1).toString() + "b";
+            } else if (1000000 <= x) {
+                return (x / 1000000).toFixed(1).toString() + "m";
+            } else {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
         },
         remove_custom_set_turnips: function() {
             this.manual_turnips_bought = 0;
